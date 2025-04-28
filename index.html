@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>我的作品集</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      overflow-x: hidden;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .main {
+      position: relative;
+      height: 300px;
+      background: url('https://wallpapers.com/images/high/mega-charizard-x-and-y-29qwraj6n3x08ks8.webp') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      overflow: hidden;
+    }
+    .main::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+    .main-content {
+      position: relative;
+      text-align: center;
+      z-index: 1;
+    }
+    .projects-wrapper {
+      position: relative;
+      margin: 40px auto 0;
+      overflow: hidden;
+      width: 90%;
+      max-width: 1200px;
+      background-color: white;
+      border-radius: 15px;
+      padding-top: 70px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .folder-buttons {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .folder-button {
+      background-color: #ccc;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px 10px 0 0;
+      clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%, 90% 90%, 10% 90%);
+      color: #333;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .folder-button.active {
+      background-color: rgba(240,240,240,1);
+      color: black;
+    }
+    .projects-container {
+      display: flex;
+      gap: 20px;
+      overflow-x: scroll;
+      padding: 20px;
+      align-items: center;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+    .projects-container::-webkit-scrollbar {
+      display: none;
+    }
+    .spacer {
+      flex: 0 0 15%;
+    }
+    .project {
+      flex: 0 0 70%;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 300px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .project img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background-color: rgba(12,12,12,1);
+      transition: filter 0.3s, opacity 0.5s;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    .project-title-overlay {
+      position: relative;
+      z-index: 1;
+      background-color: rgba(255,255,255,0.7);
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 2;
+    }
+    .arrow-left { left: 10px; }
+    .arrow-right { right: 10px; }
+    .detail-section {
+      margin: 20px auto;
+      width: 90%;
+      height: 2500px;
+      max-width: 1200px;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      min-height: 150px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .detail-section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .detail-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    .detail-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .detail-image {
+      width: 100%;
+      max-width: 50%;
+      height: auto;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+    .detail-text {
+      flex: 1;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #555;
+    }
+    .mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+      background-color: white;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    body.dark {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    body.dark .projects-wrapper,
+    body.dark .detail-section {
+      background-color: #1e1e1e;
+      box-shadow: 0 2px 10px rgba(255,255,255,0.1);
+    }
+    body.dark .folder-button {
+      background-color: #444;
+      color: #ccc;
+    }
+    body.dark .folder-button.active {
+      background-color: #666;
+      color: white;
+    }
+    body.dark .mode-toggle {
+      background-color: #444;
+      color: #eee;
+    }
+    body.dark .arrow {
+      background-color: #333;
+      color: white;
+    }
+    body.dark .project-title-overlay {
+      background-color: rgba(0,0,0,0.7);
+      color: white;
+    }
+    body.dark .detail-title {
+      color: #fff;
+    }
+    body.dark .detail-content {
+      color: #fff;
+    }
+    body.dark .detail-text {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+<button id="modeToggle" class="mode-toggle">切換模式</button>
+
+<div class="main">
+  <div class="main-content">
+    <h1>歡迎來到我的作品集</h1>
+  </div>
+</div>
+
+<div class="projects-wrapper">
+  <div class="folder-buttons">
+    <button class="folder-button active" onclick="switchCategory('python', this)">Python</button>
+    <button class="folder-button" onclick="switchCategory('javascript', this)">Javascript</button>
+    <button class="folder-button" onclick="switchCategory('cpp', this)">C++</button>
+  </div>
+
+  <button class="arrow arrow-left" onclick="scrollProjects(-1)">&#8592;</button>
+  <div class="projects-container" id="projectsContainer">
+    <div class="spacer"></div>
+  </div>
+  <button class="arrow arrow-right" onclick="scrollProjects(1)">&#8594;</button>
+</div>
+
+<div class="detail-section" id="detailSection">
+  <h2 class="detail-title">標題</h2>
+  <div class="detail-content">
+    <div class="detail-text" id="detailText">內文</div>
+    <img src="" class="detail-image" id="detailImage">
+  </div>
+</div>
+
+<script>
+const projectData = {
+  python: [
+    { title: "關燈遊戲", img: "https://i.imgur.com/8o7vIKO.png", detailImg: "https://i.imgur.com/WOyg4fn.png", detailTitle: "遊戲介紹", detailContent: "aaa" },
+    { title: "數字華容道遊戲", img: "https://i.imgur.com/n6rKoKu.png", detailImg: "https://i.imgur.com/CCjtPuR.png", detailTitle: "遊戲介紹", detailContent: "bbb" },
+    { title: "踩地雷遊戲", img: "https://i.imgur.com/AQ96KKH.png", detailImg: "https://i.imgur.com/bv2hYCf.png", detailTitle: "遊戲介紹", detailContent: "ccc" },
+    { title: "2048遊戲", img: "https://i.imgur.com/3gh44IC.png", detailImg: "https://i.imgur.com/Bscye7U.png", detailTitle: "遊戲介紹", detailContent: "ddd" }
+  ],
+  javascript: [
+    { title: "作品集網站", img: "https://i.imgur.com/NzmWNrB.png", detailImg: "", detailTitle: "網頁介紹", detailContent: "eee" }
+  ],
+  cpp: [
+    { title: "尚無C++作品", img: "", detailImg: "", detailTitle: "還在學習中", detailContent: "" }
+  ]
+};
+
+let currentCategory = 'python';
+let currentProjectIndex = 0;
+
+function switchCategory(category, button) {
+  currentCategory = category;
+  currentProjectIndex = 0;
+  document.querySelectorAll('.folder-button').forEach(btn => btn.classList.remove('active'));
+  button.classList.add('active');
+  renderProjects();
+  updateDetail(projectData[currentCategory][currentProjectIndex]);
+}
+
+function renderProjects() {
+  const container = document.getElementById('projectsContainer');
+  container.innerHTML = '<div class="spacer"></div>';
+
+  projectData[currentCategory].forEach(project => {
+    const projectDiv = document.createElement('div');
+    projectDiv.className = 'project';
+
+    const img = document.createElement('img');
+    if (project.img) {
+      img.src = project.img;
+      img.alt = '';
+      projectDiv.appendChild(img);
+    }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'project-title-overlay';
+    overlay.innerHTML = `<h2>${project.title}</h2>`;
+    projectDiv.appendChild(overlay);
+
+    container.appendChild(projectDiv);
+  });
+
+  container.innerHTML += '<div class="spacer"></div>';
+}
+
+function scrollProjects(direction) {
+  const container = document.getElementById('projectsContainer');
+  const scrollAmount = container.offsetWidth * 0.7 + 20;
+  container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+}
+
+function updateDetail(project) {
+  const detail = document.getElementById('detailSection');
+  if (project) {
+    detail.querySelector('.detail-title').textContent = project.detailTitle;
+    detail.querySelector('.detail-content').innerHTML = `
+      <div class="detail-text">${project.detailContent}</div>
+      <img src="${project.detailImg}" class="detail-image">
+    `;
+    detail.classList.add('show');
+  }
+}
+
+function checkCenterProject() {
+  const container = document.getElementById('projectsContainer');
+  const projects = container.querySelectorAll('.project');
+  const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+  let closestIndex = 0;
+  let closestDistance = Infinity;
+
+  projects.forEach((project, index) => {
+    const rect = project.getBoundingClientRect();
+    const projectCenter = rect.left + rect.width / 2;
+    const distance = Math.abs(projectCenter - window.innerWidth / 2);
+
+    const img = project.querySelector('img');
+    if (img) {
+      img.style.filter = `blur(${Math.min(distance / 100, 5)}px)`;
+      img.style.opacity = 1 - Math.min(distance / 500, 0.5);
+    }
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  });
+
+  currentProjectIndex = closestIndex;
+  updateDetail(projectData[currentCategory][currentProjectIndex]);
+}
+
+function preloadImages() {
+  for (const category in projectData) {
+    projectData[category].forEach(project => {
+      if (project.img) {
+        const img = new Image();
+        img.src = project.img;
+      }
+      if (project.detailImg) {
+        const detailImg = new Image();
+        detailImg.src = project.detailImg;
+      }
+    });
+  }
+}
+
+document.getElementById('projectsContainer').addEventListener('scroll', () => {
+  checkCenterProject();
+});
+
+document.getElementById('modeToggle').addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+});
+
+renderProjects();
+window.addEventListener('load', () => {
+  updateDetail(projectData[currentCategory][currentProjectIndex]);
+});
+</script>
+
+</body>
+</html>
