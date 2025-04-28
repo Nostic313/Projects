@@ -266,7 +266,7 @@ const projectData = {
   python: [
     { title: "關燈遊戲", img: "https://i.imgur.com/8o7vIKO.png", detailImg: "https://i.imgur.com/WOyg4fn.png", detailTitle: "遊戲介紹", detailContent: "遊戲中有5*5的格子，每個格子都為關燈（.）狀態或開燈（0）狀態，輸入特定格子（列 行）時其格子與上下左右四個格子的狀態都會變成其反面。遊戲目標為將所有格子都變成關燈狀態，此時就會獲勝。<br>程式透過隨機函式庫來產生每局都不同的遊戲，並支援防呆機制，若輸入非範圍內數字或q之值會讓玩家重新輸入，而輸入q時就會讓遊戲直接結束。<br>程式並未支援重複遊玩，因此想要再玩一局需要重新開啟程式。" },
     { title: "數字華容道遊戲", img: "https://i.imgur.com/n6rKoKu.png", detailImg: "https://i.imgur.com/CCjtPuR.png", detailTitle: "遊戲介紹", detailContent: "遊戲由3*3的格子組成，每個格子皆為不重複的0~8其中一個數字，其中0代表為空格。<br>玩家透過輸入wasd來將數字與空格對調位置，而遊戲目標為將格子之數字從左上到右下由小到大排列，且空格在最右下角。<br>遊戲支援防呆機制，如果輸入非wasd或q之值會讓玩家再輸入一次，且如果移動為無效時也會讓玩家再輸入一次，而輸入q時就會讓遊戲直接結束。<br>程式並未支援重複遊玩，因此想要再玩一局需要重新開啟程式。" },
-    { title: "踩地雷遊戲", img: "https://i.imgur.com/AQ96KKH.png", detailImg: "https://i.imgur.com/bv2hYCf.png", detailTitle: "遊戲介紹", detailContent: "遊戲由5*5的格子組成，其中有五個格子會是炸彈，其餘格子具有數值，為相鄰四周內炸彈之數量，若四周無炸彈則該格稱為無數字格，且初始設定全部格子皆為隱藏的狀態。<br>玩家透過輸入數值（列 行）來將該格子打開，而遊戲目標為將除了炸彈格子之外的所有格子都打開即勝利。<br>因應用了BFS（廣度優先演算法），若該格子四周皆無炸彈，則相鄰的其他無數字格與數字格都會打開。<br>遊戲支援防呆機制，如果輸入非數值或q之值會讓玩家再輸入一次，且如果該格為無效格時也會讓玩家再輸入一次，而輸入q時就會讓遊戲直接結束。<br>遊戲在打開格子前便已初始化好，因此有可能第一格就踩到地雷。程式並未支援重複遊玩，因此想要再玩一局需要重新開啟程式。" },
+    { title: "踩地雷遊戲", img: "https://i.imgur.com/AQ96KKH.png", detailImg: "https://i.imgur.com/LEaDklG.png", detailTitle: "遊戲介紹", detailContent: "遊戲由5*5的格子組成，其中有五個格子會是炸彈，其餘格子具有數值，為相鄰四周內炸彈之數量，若四周無炸彈則該格稱為無數字格，且初始設定全部格子皆為隱藏的狀態。<br>玩家透過輸入數值（列 行）來將該格子打開，而遊戲目標為將除了炸彈格子之外的所有格子都打開即勝利。<br>因應用了BFS（廣度優先演算法），若該格子四周皆無炸彈，則相鄰的其他無數字格與數字格都會打開。<br>遊戲支援防呆機制，如果輸入非數值或q之值會讓玩家再輸入一次，且如果該格為無效格時也會讓玩家再輸入一次，而輸入q時就會讓遊戲直接結束。<br>遊戲在打開格子前便已初始化好，因此有可能第一格就踩到地雷。程式並未支援重複遊玩，因此想要再玩一局需要重新開啟程式。" },
     { title: "2048遊戲", img: "https://i.imgur.com/3gh44IC.png", detailImg: "https://i.imgur.com/Bscye7U.png", detailTitle: "遊戲介紹", detailContent: "遊戲由4*4的格子組成，初始會設定隨機兩格有數值，可能為2或4。<br>玩家透過輸入wasd來將數字移動，若移動後兩相同數字在其移動方向重疊則將兩者融合（相加），而遊戲目標為融合出2048。<br>遊戲支援防呆機制，如果輸入非wasd或q之值會讓玩家再輸入一次，且如果該移動為無效移動時也會讓玩家再輸入一次，而輸入q時就會讓遊戲直接結束。<br>程式並未支援重複遊玩，因此想要再玩一局需要重新開啟程式。" }
   ],
   javascript: [
@@ -292,26 +292,21 @@ function switchCategory(category, button) {
 function renderProjects() {
   const container = document.getElementById('projectsContainer');
   container.innerHTML = '<div class="spacer"></div>';
-
   projectData[currentCategory].forEach(project => {
     const projectDiv = document.createElement('div');
     projectDiv.className = 'project';
-
     const img = document.createElement('img');
     if (project.img) {
       img.src = project.img;
       img.alt = '';
       projectDiv.appendChild(img);
     }
-
     const overlay = document.createElement('div');
     overlay.className = 'project-title-overlay';
     overlay.innerHTML = `<h2>${project.title}</h2>`;
     projectDiv.appendChild(overlay);
-
     container.appendChild(projectDiv);
   });
-
   container.innerHTML += '<div class="spacer"></div>';
 }
 
@@ -325,10 +320,21 @@ function updateDetail(project) {
   const detail = document.getElementById('detailSection');
   if (project) {
     detail.querySelector('.detail-title').textContent = project.detailTitle;
-    detail.querySelector('.detail-content').innerHTML = `
-      <div class="detail-text">${project.detailContent}</div>
-      <img src="${project.detailImg}" class="detail-image">
-    `;
+    const detailContent = detail.querySelector('.detail-content');
+    detailContent.innerHTML = '';
+    const textDiv = document.createElement('div');
+    textDiv.className = 'detail-text';
+    textDiv.innerHTML = project.detailContent;
+    detailContent.appendChild(textDiv);
+    if (project.detailImg) {
+      const img = document.createElement('img');
+      img.className = 'detail-image';
+      img.src = project.detailImg;
+      detailContent.appendChild(img);
+      textDiv.style.maxWidth = '';
+    } else {
+      textDiv.style.maxWidth = '100%';
+    }
     detail.classList.add('show');
   }
 }
@@ -339,24 +345,20 @@ function checkCenterProject() {
   const containerCenter = container.scrollLeft + container.offsetWidth / 2;
   let closestIndex = 0;
   let closestDistance = Infinity;
-
   projects.forEach((project, index) => {
     const rect = project.getBoundingClientRect();
     const projectCenter = rect.left + rect.width / 2;
     const distance = Math.abs(projectCenter - window.innerWidth / 2);
-
     const img = project.querySelector('img');
     if (img) {
       img.style.filter = `blur(${Math.min(distance / 100, 5)}px)`;
       img.style.opacity = 1 - Math.min(distance / 500, 0.5);
     }
-
     if (distance < closestDistance) {
       closestDistance = distance;
       closestIndex = index;
     }
   });
-
   currentProjectIndex = closestIndex;
   updateDetail(projectData[currentCategory][currentProjectIndex]);
 }
