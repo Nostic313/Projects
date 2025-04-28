@@ -149,7 +149,6 @@
     }
     .detail-title {
       font-size: 48px;
-	  text-decoration: underline;
       font-weight: bold;
       margin-bottom: 10px;
       text-align: left;
@@ -255,6 +254,7 @@
 
 <div class="detail-section" id="detailSection">
   <h2 class="detail-title">標題</h2>
+  <hr></hr>
   <div class="detail-content">
     <div class="detail-text" id="detailText">內文</div>
     <img src="" class="detail-image" id="detailImage">
@@ -270,10 +270,10 @@ const projectData = {
     { title: "2048遊戲", img: "https://i.imgur.com/3gh44IC.png", detailImg: "https://i.imgur.com/Bscye7U.png", detailTitle: "遊戲介紹", detailContent: "遊戲由4*4的格子組成，初始會設定隨機兩格有數值，可能為2或4。<br>玩家透過輸入wasd來將數字移動，若移動後兩相同數字在其移動方向重疊則將兩者融合（相加），而遊戲目標為融合出2048。<br>遊戲支援防呆機制，如果輸入非wasd或q之值會讓玩家再輸入一次，且如果該移動為無效移動時也會讓玩家再輸入一次，而輸入q時就會讓遊戲直接結束。<br>程式並未支援重複遊玩，因此想要再玩一局需要重新開啟程式。" }
   ],
   javascript: [
-    { title: "作品集網站", img: "https://i.imgur.com/NzmWNrB.png", detailImg: "", detailTitle: "網頁介紹", detailContent: "該網站為我第一次製作的網站，其製作目的為展示我所做過的許多作品。<br>該網站使用無版權背景，支援淺色及深色模式，並透過像資料夾的標籤來將製作過的專案分類。<br>專案部分以左右箭頭來替代橫向滑條，使專案之間能夠更加方便的切換，且未被聚焦的專案會被模糊化。<br>而介紹部分設置為左半邊為文字，右半邊為照片的設計。<br>該網頁有使用ChatGPT協助製作，90%為請教語法問題及詢問製作教學，剩下的10%為提供除錯思路。" }
+    { title: "作品集網站", img: "https://i.imgur.com/NzmWNrB.png", detailImg: "", detailTitle: "網頁介紹", detailContent: "該網站為我第一次製作的網站，其製作目的為展示我所做過的許多作品。<br>該網站使用無版權背景，支援淺色及深色模式，並透過像資料夾的標籤來將製作過的專案分類。<br>專案部分以左右箭頭來替代橫向滑條，使專案之間能夠更加方便的切換，且未被聚焦的專案會被模糊化。<br>而介紹部分設置為左半邊為文字，右半邊為照片的設計。<br>該網頁有稍微使用ChatGPT協助製作，其中90%為請教語法問題及詢問製作教學，剩下的10%為提供除錯思路。" }
   ],
   cpp: [
-    { title: "尚無C++作品", img: "", detailImg: "", detailTitle: "還在學習中", detailContent: "" }
+    { title: "尚無C++作品", img: "", detailImg: "", detailTitle: "還在學習中", detailContent: "如有任何新成品將會放置上來" }
   ]
 };
 
